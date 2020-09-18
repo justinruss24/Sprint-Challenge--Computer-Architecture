@@ -62,6 +62,10 @@ class CPU:
             self.register[reg_a] *= self.register[reg_b]
 
         elif op == "CMP":
+            # compare the values in 2 registers
+            # if == set Eflag to 1, otherwise set it to 0 (already set at 0)
+            # if a < b set Lflag to 1, otherwise set it to 0 (already set at 0)
+            # if a > b set Gflag to 1, otherwise set it to 0 (already set at 0)
             op1 = self.register[reg_a]
             op2 = self.register[reg_b]
             if op1 == op2:
@@ -150,6 +154,7 @@ class CPU:
         self.alu("CMP", op1, op2)
     
     def JEQ(self):
+        # if equal flag is true, jump to address stored in reg
         flag = self.Eflag
         if flag == 1:
             self.JMP()
@@ -157,6 +162,7 @@ class CPU:
             self.pc += 2
 
     def JNE(self):
+        # if equal flag is false, jump to address stored in the reg
         flag = self.Eflag
         if flag == 0:
             self.JMP()
@@ -164,6 +170,8 @@ class CPU:
             self.pc += 2
     
     def JMP(self):
+        # jump to address stored in register
+        # set pc to address stored in register
         reg = self.ram_read(self.pc + 1)
         self.pc = self.register[reg]
 
